@@ -1,4 +1,4 @@
-package com.devsuperior.dslearnbds;
+package com.eliezerrb.dslearnbds;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
