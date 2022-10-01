@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.eliezerrb.dslearnbds.services.exceptions.DatabaseException;
+import com.eliezerrb.dslearnbds.services.exceptions.ForbiddenException;
 import com.eliezerrb.dslearnbds.services.exceptions.ResourceNotFoundException;
+import com.eliezerrb.dslearnbds.services.exceptions.UnauthorizedException;
 
 // @ControllerAdvice - Anotação que permite que a classe intercepte a exception que acontecer na camada de resource
 // @ExceptionHandler - Colocar no metodo que vai interceptar o controler e tratar a exception
@@ -27,8 +29,8 @@ public class ResourceExceptionHandler {
 	  HttpStatus.NOT_FOUND = 404 - Requisição não encontrada
 	  HttpStatus.BAD_REQUEST = 400 - Requisição não foi processada devido a erro do cliente (sintaxe, requisição inválida e etc...)
 	  HttpStatus.UNPROCESSABLE_ENTITY = 422 - Alguma entidade não foi possivel de ser processada
-	  
-	 
+	  HttpStatus.FORBIDDEN = 403 - token válido, não tem permissão para o recurso.
+	  HttpStatus.UNAUTHORIZED = 401 - token inválido
 	 */
 	
 	@ExceptionHandler(ResourceNotFoundException.class)
@@ -74,6 +76,19 @@ public class ResourceExceptionHandler {
 		}
 		
 		return ResponseEntity.status(statusHttp).body(err);
+	}
+	
+	
+	@ExceptionHandler(ForbiddenException.class)
+	public ResponseEntity<OAuthCustomError> forbidden(ForbiddenException e, HttpServletRequest request){
+		OAuthCustomError err = new OAuthCustomError("Forbidden", e.getMessage());
+		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(err);
+	}
+	
+	@ExceptionHandler(UnauthorizedException.class)
+	public ResponseEntity<OAuthCustomError> unauthorized(UnauthorizedException e, HttpServletRequest request){
+		OAuthCustomError err = new OAuthCustomError("Unauthorized", e.getMessage());
+		return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(err);
 	}
 
 }
