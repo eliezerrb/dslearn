@@ -18,9 +18,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 	// Environment - Ambiente de execusão da aplicação
 	@Autowired
 	private Environment env;
-	
-	
-	
+
 	@Autowired
 	private JwtTokenStore tokenStore;
 	
@@ -49,6 +47,5 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 		.antMatchers(PUBLIC).permitAll()
 		.anyRequest().authenticated();
 	}
-
 	
 }
