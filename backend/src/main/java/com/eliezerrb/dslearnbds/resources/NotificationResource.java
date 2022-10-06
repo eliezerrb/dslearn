@@ -24,5 +24,4 @@ public class NotificationResource {
 		return ResponseEntity.ok().body(page);
 	}
 	
-	
 }
